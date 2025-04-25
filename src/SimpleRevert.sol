@@ -7,6 +7,7 @@ contract SimpleRevert {
       assembly {
           // your code here
           // revert with no message
+          revert(0x0, 0x0)
           // hint: https://www.rareskills.io/post/assembly-revert
       }
   }
