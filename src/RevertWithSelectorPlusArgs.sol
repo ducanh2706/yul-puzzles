@@ -10,6 +10,10 @@ contract RevertWithSelectorPlusArgs {
             // revert custom error with x parameter
             // Hint: concatenate selector and x by storing them
             // adjacent to each other in memory
+            let ptr := mload(0x40)
+            mstore(ptr, shl(0xe0, 0xae412287))
+            mstore(add(ptr, 0x04), x)
+            revert(ptr, 0x24)
         }
     }
 }
