@@ -12,6 +12,14 @@ contract ReadFromDoubleMapping {
         assembly {
             // your code here
             // read and return the `token` balance of `user` in the double mapping `balances`
+            mstore(0x00, user)
+            mstore(0x20, 0x00)
+            let userPos := keccak256(0x00, 0x40)
+            mstore(0x00, token)
+            mstore(0x20, userPos)
+            let balancePos := keccak256(0x00, 0x40)
+            mstore(0x00, sload(balancePos))
+            return(0x00, 0x20)
             // Hint: https://www.rareskills.io/post/solidity-dynamic
         }
     }
