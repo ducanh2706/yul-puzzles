@@ -10,6 +10,19 @@ contract WriteTwoDynamicArraysToStorage {
             // your code here
             // write the dynamic calldata array `x` to storage variable `writeHere1` and
             // dynamic calldata array `y` to storage variable `writeHere2`
+            let posX := keccak256(0x00, 0x20)
+            sstore(0, x.length)
+            for {let i := 0} lt(i, x.length) {i := add(i, 1)} {
+                sstore(add(posX, i), calldataload(add(x.offset, mul(i, 0x20))))
+            }
+
+            mstore(0x00, 0x01)
+            let posY := keccak256(0x00, 0x20)
+            sstore(1, y.length)
+            for {let i := 0} lt(i, y.length) {i := add(i, 1)} {
+                sstore(add(posY, i), calldataload(add(y.offset, mul(i, 0x20))))
+            }
+            
         }
     }
 }
