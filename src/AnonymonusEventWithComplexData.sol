@@ -29,6 +29,19 @@ contract AnonymonusEventWithComplexData {
             //          - gender
             //          - name length
             //          - name
+            let ptr := mload(0x40)
+            let len := mload(mload(person))
+            mstore(ptr, 0x20) // struct offset
+            mstore(add(ptr, 0x20), 0x60) // string offset
+            mstore(add(ptr, 0x40), mload(add(person, 0x20))) // age
+            mstore(add(ptr, 0x60), mload(add(person, 0x40))) // gender
+            mstore(add(ptr, 0x80), len) // length
+            for {let i := 0} lt(i, len) {i := add(i, 0x20)} {
+                mstore(add(ptr, add(0xa0, i)), mload(add(person, add(0x80, i))))
+            }
+            
+            log3(ptr, add(0xa0, and(add(len, 0x1f), not(0x1f))), "", emitter, id)
+            // and(add(len, 0x1f), not(0x1f)) is ceil(len) (divisible by 16)
         }
     }
 }
