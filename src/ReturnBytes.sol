@@ -6,6 +6,12 @@ contract ReturnBytes {
         assembly {
             // your code here
             // encode a and b `abi.encode(a,b)` and return it.
+            let ptr := mload(0x40)
+            mstore(ptr, 0x20) // offset
+            mstore(add(ptr, 0x20), 0x40) // length
+            mstore(add(ptr, 0x40), a)
+            mstore(add(ptr, 0x60), b)
+            return(ptr, 0x80)
         }
     }
 }
