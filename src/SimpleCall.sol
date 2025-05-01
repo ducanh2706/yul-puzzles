@@ -8,6 +8,12 @@ contract SimpleCall {
             // your code here
             // call "t.foo()"
             // hint: "foo()" has function selector 0xc2985578
+            mstore(0x00, 0xc2985578)
+            let result := call(gas(), t, 0, 0x1c, 0x04, 0, 0)
+            if iszero(result) {
+                returndatacopy(0, 0, returndatasize())
+                revert(0, returndatasize())
+            }
        }
     }
 }
