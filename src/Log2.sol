@@ -18,7 +18,46 @@ contract Log2 {
             //   bin(6) = 0110, so log2(6) = 2
             //   bin(7) = 0111, so log2(6) = 2
             //   bin(8) = 1000, so log2(6) = 3
-  
+            if iszero(x) {
+                revert(0x00, 0x00)
+            }
+
+            let res := 0
+            if gt(x, 0xffffffffffffffffffffffffffffffff) {
+                x := shr(128, x)
+                res := add(res, 128)
+            }
+            if gt(x, 0xffffffffffffffff) {
+                x := shr(64, x)
+                res := add(res, 64)
+            }
+            if gt(x, 0xffffffff) {
+                x := shr(32, x)
+                res := add(res, 32)
+            }
+            if gt(x, 0xffff) {
+                x := shr(16, x)
+                res := add(res, 16)
+            }
+            if gt(x, 0xff) {
+                x := shr(8, x)
+                res := add(res, 8)
+            }
+            if gt(x, 0x0f) {
+                x := shr(4, x)
+                res := add(res, 4)
+            }
+            if gt(x, 0x03) {
+                x := shr(2, x)
+                res := add(res, 2)
+            }
+            if gt(x, 0x01) {
+                x := shr(1, x)
+                res := add(res, 1)
+            }
+
+            mstore(0x00, res)
+            return(0x00, 0x20)
         }
     }
 }
